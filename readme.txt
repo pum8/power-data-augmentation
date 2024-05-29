@@ -28,5 +28,5 @@ This project involves the use of Conditional Tabular Generative Adversarial Netw
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/your-repository/project-name.git
+   git clone https://github.com/pum8/Green-computing-project.git
    cd project-name
