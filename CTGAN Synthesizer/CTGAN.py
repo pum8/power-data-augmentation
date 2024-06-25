@@ -7,7 +7,7 @@ from sdv.evaluation.single_table import evaluate_quality
 data = pd.read_excel("perf_events_pwr.xlsx")
 #['graph_name', 'pwr_peak', 'pwr_avg', 'TEPS', 'occupancy', 'ILP',   'intensity', 'reuse_ratio', 'ld_coalesce', 'st_coalesce', 'L2_hit_rate',   'L1_hit_rate', 'branch_eff', 'pred_eff', 'performance/watt']
 column_name = ['occupancy', 'ILP',
-       'intensity', 'reuse_ratio', 'ld_coalesce', 'st_coalesce', 'L2_hit_rate',
+       'intensity', 'reuse_ratio', 'ld_coalesce', 'L2_hit_rate',
        'L1_hit_rate', 'branch_eff',  'pwr_avg']
 real_data = data[column_name]
 
@@ -16,7 +16,7 @@ metadata.detect_from_dataframe(real_data)
 python_dict = metadata.to_dict()
 
 synthesizer = CTGANSynthesizer(metadata,verbose=True,
-                               batch_size=256,
+                               batch_size=64,
                                discriminator_lr=2e-6,
                                generator_lr=2e-6,
                                epochs=500,

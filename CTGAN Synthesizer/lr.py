@@ -14,7 +14,7 @@ synth_data = pd.read_csv("synthetic_data.csv")
 #['graph_name', 'pwr_peak', 'pwr_avg', 'TEPS', 'occupancy', 'ILP',   'intensity', 'reuse_ratio', 'ld_coalesce', 'st_coalesce', 'L2_hit_rate',   'L1_hit_rate', 'branch_eff', 'pred_eff', 'performance/watt']
 
 column_name = ['occupancy', 'ILP',
-       'intensity', 'reuse_ratio', 'ld_coalesce', 'st_coalesce', 'L2_hit_rate',
+       'intensity', 'reuse_ratio', 'ld_coalesce', 'L2_hit_rate',
        'L1_hit_rate', 'branch_eff',  'pwr_avg']
 
 
@@ -79,5 +79,5 @@ def ml_models(X_train,y_train):
 
 print("Model on Real data:")
 ml_models(X_train,y_train)
-print("Model on Synthtic data:")
+print("Model on Synthtic data:\n")
 ml_models(X_train_with_synth,y_train_with_synth)

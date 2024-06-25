@@ -8,24 +8,28 @@ import matplotlib.pyplot as plt
 from sdv.evaluation.single_table import run_diagnostic
 from sdv.evaluation.single_table import evaluate_quality
 from sdv.evaluation.single_table import get_column_plot,get_column_pair_plot
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 data = pd.read_excel("perf_events_pwr.xlsx")
 column_name = ['occupancy', 'ILP',
-       'intensity', 'reuse_ratio', 'ld_coalesce', 'st_coalesce', 'L2_hit_rate',
+       'intensity', 'reuse_ratio', 'ld_coalesce', 'L2_hit_rate',
        'L1_hit_rate', 'branch_eff',  'pwr_avg']
 column_name_wo_target = ['occupancy', 'ILP',
-       'intensity', 'reuse_ratio', 'ld_coalesce', 'st_coalesce', 'L2_hit_rate',
+       'intensity', 'reuse_ratio', 'ld_coalesce', 'L2_hit_rate',
        'L1_hit_rate', 'branch_eff']
+
+
 real_data = data[column_name].copy()
 
 synthesizer = CTGANSynthesizer.load(
-    filepath='model_TVAE.pkl'
+    filepath='model_040324.pkl'
 )
 metadata = SingleTableMetadata()
 metadata.detect_from_dataframe(real_data)
 python_dict = metadata.to_dict()
 
-synthetic_data =synthesizer.sample(num_rows=int(120))#120
+synthetic_data =synthesizer.sample(num_rows=int(5000))#120
 
 synthetic_data.to_csv('synthetic_data.csv', index=False)
 
@@ -55,6 +59,9 @@ def fig_generator(feature):
         metadata=metadata,
         column_name=feature
     )
+    fig.update_layout(showlegend=False, font=dict(size=18))
+    fig.write_image(f"figure/{feature}.jpg")
+    """
     if feature!='pwr_avg':
         fig2 = get_column_pair_plot(
             real_data=real_data,
@@ -64,7 +71,7 @@ def fig_generator(feature):
         )
         fig2.write_image(f"ctganfigure/{feature} VS PWR_AVG.jpg")
     fig.write_image(f"ctganfigure/{feature}.jpg")
-    
+    """
 
 for f in ['occupancy', 'ILP',
        'intensity', 'reuse_ratio', 'ld_coalesce', 'L2_hit_rate',
@@ -72,15 +79,20 @@ for f in ['occupancy', 'ILP',
     print(f)
     fig_generator(f)
 
-corr = real_data.corr()
-plt.figure(figsize=(10, 8))
-sns.heatmap(corr, cmap='coolwarm')
-plt.title('Real Data Correlation Heatmap')
-plt.savefig('figure/Real Data Correlation Heatmap.jpg')
+
+sns.set_context("talk", font_scale=1.4)
+
+
+
+
 corr = synthetic_data.corr()
 plt.figure(figsize=(10, 8))
-sns.heatmap(corr, cmap='coolwarm')
-plt.title('TVAE synthetic Data Correlation Heatmap')
+sns.heatmap(corr, cmap='coolwarm',annot=False, cbar=False)
+plt.title('TVAE synthetic Data Correlation Heatmap', fontsize=20)
+plt.tight_layout(rect=[0, 0, 1, 0.95])  # Adjust this to give more space for the title
 plt.savefig('figure/TVAE synthetic Data Correlation Heatmap.jpg')
+plt.close()
+
 print("Done")
+
 
