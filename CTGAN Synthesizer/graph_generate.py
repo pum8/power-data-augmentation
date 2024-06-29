@@ -11,6 +11,19 @@ column_name_wo_target = ['occupancy', 'ILP',
                          'L1_hit_rate', 'branch_eff']
 real_data = data[column_name].copy()
 
+column_name_map = {
+    'occupancy': 'Occupancy',
+    'ILP': 'Instruction-Level Parallelism',
+    'intensity': 'Intensity',
+    'reuse_ratio': 'Reuse Ratio',
+    'ld_coalesce': 'Load Coalescence',
+    'L2_hit_rate': 'L2 Cache Hit Rate',
+    'L1_hit_rate': 'L1 Cache Hit Rate',
+    'branch_eff': 'Branch Efficiency',
+    'pwr_avg': 'Average Power'
+}
+
+
 synthesizer = CTGANSynthesizer.load(
     filepath='model_CTGAN.pkl'
 )
@@ -19,9 +32,11 @@ metadata.detect_from_dataframe(real_data)
 python_dict = metadata.to_dict()
 
 
-synthetic_data = synthesizer.sample(num_rows=int(120))
+synthetic_data = synthesizer.sample(num_rows=int(5000))
 
 synthetic_data.to_csv('synthetic_data.csv', index=False)
+
+#synthetic_data = pd.read_csv("synthetic_data.csv")
 
 from sdv.evaluation.single_table import run_diagnostic, evaluate_quality
 
@@ -52,8 +67,19 @@ def fig_generator(feature):
         synthetic_data=synthetic_data,
         metadata=metadata,
         column_name=feature
+                )
+    fig.update_layout(
+        title=f"{column_name_map[feature]}",
+        showlegend=True,
+        font=dict(size=25),
+        legend=dict(
+            orientation='h',
+            yanchor='bottom',
+            y=1.02,
+            xanchor='center',
+            x=0.5
+        )
     )
-    fig.update_layout(showlegend=False, font=dict(size=18))
     fig.write_image(f"ctganfigure/{feature}.jpg")
     """
     if feature != 'pwr_avg':
@@ -65,7 +91,7 @@ def fig_generator(feature):
         )
         fig2.update_layout(showlegend=False, font=dict(size=18))
         fig2.write_image(f"ctganfigure/{feature} VS PWR_AVG.jpg")
-         """
+    """
 for f in ['occupancy', 'ILP',
           'intensity', 'reuse_ratio', 'ld_coalesce', 'L2_hit_rate',
           'L1_hit_rate', 'branch_eff', 'pwr_avg']:
@@ -81,7 +107,7 @@ sns.set_context("talk", font_scale=1.4)
 corr = real_data.corr()
 plt.figure(figsize=(10, 8))
 sns.heatmap(corr, cmap='coolwarm', annot=False, cbar=False)
-plt.title('Real Data Correlation Heatmap', fontsize=20)
+plt.title('Real Data Correlation Heatmap', fontsize=25)
 plt.tight_layout(rect=[0, 0, 1, 0.95])  # Adjust this to give more space for the title
 plt.savefig('ctganfigure/Real_Data_Correlation_Heatmap_Adjusted.jpg')
 plt.close()
@@ -89,7 +115,7 @@ plt.close()
 corr = synthetic_data.corr()
 plt.figure(figsize=(10, 8))
 sns.heatmap(corr, cmap='coolwarm',annot=False, cbar=False)
-plt.title('CTGAN Synthetic Data Correlation Heatmap', fontsize=20)
+plt.title('CTGAN Synthetic Data Correlation Heatmap', fontsize=25)
 plt.tight_layout(rect=[0, 0, 1, 0.95])  # Adjust this to give more space for the title
 plt.savefig('ctganfigure/CTGAN_Synthetic_Data_Correlation_Heatmap_Adjusted.jpg')
 plt.close()
