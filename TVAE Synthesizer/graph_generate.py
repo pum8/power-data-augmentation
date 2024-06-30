@@ -19,6 +19,18 @@ column_name_wo_target = ['occupancy', 'ILP',
        'intensity', 'reuse_ratio', 'ld_coalesce', 'L2_hit_rate',
        'L1_hit_rate', 'branch_eff']
 
+column_name_map = {
+    'occupancy': 'Occupancy',
+    'ILP': 'Instruction-Level Parallelism',
+    'intensity': 'Intensity',
+    'reuse_ratio': 'Reuse Ratio',
+    'ld_coalesce': 'Load Coalescence',
+    'L2_hit_rate': 'L2 Cache Hit Rate',
+    'L1_hit_rate': 'L1 Cache Hit Rate',
+    'branch_eff': 'Branch Efficiency',
+    'pwr_avg': 'Average Power'
+}
+
 
 real_data = data[column_name].copy()
 
@@ -59,7 +71,18 @@ def fig_generator(feature):
         metadata=metadata,
         column_name=feature
     )
-    fig.update_layout(showlegend=False, font=dict(size=18))
+    fig.update_layout(
+        title=f"{column_name_map[feature]}",
+        showlegend=True,
+        font=dict(size=25),
+        legend=dict(
+            orientation='h',
+            yanchor='bottom',
+            y=1.02,
+            xanchor='center',
+            x=0.5
+        )
+    )   
     fig.write_image(f"figure/{feature}.jpg")
     """
     if feature!='pwr_avg':
@@ -88,8 +111,8 @@ sns.set_context("talk", font_scale=1.4)
 corr = synthetic_data.corr()
 plt.figure(figsize=(10, 8))
 sns.heatmap(corr, cmap='coolwarm',annot=False, cbar=False)
-plt.title('TVAE synthetic Data Correlation Heatmap', fontsize=20)
-plt.tight_layout(rect=[0, 0, 1, 0.95])  # Adjust this to give more space for the title
+plt.title('TVAE synthetic Data Correlation Heatmap', fontsize=25)
+plt.tight_layout(rect=[0, 0, 1, 0.95])  
 plt.savefig('figure/TVAE synthetic Data Correlation Heatmap.jpg')
 plt.close()
 
