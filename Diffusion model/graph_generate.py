@@ -48,16 +48,34 @@ print("Report",quality_report.get_details(property_name='Column Shapes'))
 
 import plotly.express as px
 
+column_name_map = {
+    'occupancy': 'Occupancy',
+    'ILP': 'Instruction-Level Parallelism',
+    'intensity': 'Intensity',
+    'reuse_ratio': 'Reuse Ratio',
+    'ld_coalesce': 'Load Coalescence',
+    'L2_hit_rate': 'L2 Cache Hit Rate',
+    'L1_hit_rate': 'L1 Cache Hit Rate',
+    'branch_eff': 'Branch Efficiency',
+    'pwr_avg': 'Average Power'
+}
 
 
 fig = quality_report.get_visualization(property_name='Column Shapes')
 
-fig.update_traces(marker=dict(color='blue'))  # Change 'blue' to your desired color
+fig.update_traces(marker=dict(color='blue'))  
 fig.update_layout(
-    plot_bgcolor='white',   # Change plot background color
-    paper_bgcolor='white',  # Change paper background color
-    font=dict(color='black', size=18),  # Increase font size
-    showlegend=False  # Remove legend
+    title={
+        'text': "Kolmogorov-Smirnov score",
+        'y':0.9,
+        'x':0.5,
+        'xanchor': 'center',
+        'yanchor': 'top'
+    },
+    plot_bgcolor='white', 
+    paper_bgcolor='white', 
+    font=dict(color='black', size=25),  
+    showlegend=False  
 )
 
 fig.write_image(f"figure/TabDDPM KScomplement.jpg")
@@ -70,7 +88,18 @@ def fig_generator(feature):
         metadata=metadata,
         column_name=feature
     )
-    fig.update_layout(showlegend=False, font=dict(size=18))
+    fig.update_layout(
+        title=f"{column_name_map[feature]}",
+        showlegend=True,
+        font=dict(size=25),
+        legend=dict(
+            orientation='h',
+            yanchor='bottom',
+            y=1.02,
+            xanchor='center',
+            x=0.5
+        )
+    )
     fig.write_image(f"figure/{feature}.jpg")
 
 for f in ['occupancy', 'ILP',
@@ -88,18 +117,12 @@ sns.set_context("talk", font_scale=1.4)
 corr = synthetic_data.corr()
 plt.figure(figsize=(10, 8))
 sns.heatmap(corr, cmap='coolwarm',annot=False, cbar=False)
-plt.title('TabDDPM synthetic Data Correlation Heatmap', fontsize=20)
+plt.title('TabDDPM synthetic Data Correlation Heatmap', fontsize=25)
 plt.tight_layout(rect=[0, 0, 1, 0.95])  # Adjust this to give more space for the title
 plt.savefig('figure/TabDDPM synthetic Data Correlation Heatmap.jpg')
 plt.close()
 
 print("Done")
-
-
-
-
-
-
 
 
 

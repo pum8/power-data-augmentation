@@ -101,14 +101,13 @@ for f in ['occupancy', 'ILP',
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Adjust the font sizes
 sns.set_context("talk", font_scale=1.4)
 
 corr = real_data.corr()
 plt.figure(figsize=(10, 8))
 sns.heatmap(corr, cmap='coolwarm', annot=False, cbar=False)
 plt.title('Real Data Correlation Heatmap', fontsize=25)
-plt.tight_layout(rect=[0, 0, 1, 0.95])  # Adjust this to give more space for the title
+plt.tight_layout(rect=[0, 0, 1, 0.95])
 plt.savefig('ctganfigure/Real_Data_Correlation_Heatmap_Adjusted.jpg')
 plt.close()
 
@@ -116,7 +115,7 @@ corr = synthetic_data.corr()
 plt.figure(figsize=(10, 8))
 sns.heatmap(corr, cmap='coolwarm',annot=False, cbar=False)
 plt.title('CTGAN Synthetic Data Correlation Heatmap', fontsize=25)
-plt.tight_layout(rect=[0, 0, 1, 0.95])  # Adjust this to give more space for the title
+plt.tight_layout(rect=[0, 0, 1, 0.95])  
 plt.savefig('ctganfigure/CTGAN_Synthetic_Data_Correlation_Heatmap_Adjusted.jpg')
 plt.close()
 
