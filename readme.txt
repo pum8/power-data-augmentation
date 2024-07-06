@@ -1,7 +1,7 @@
-# Project Title: Data Synthesis using CTGAN,TVAE, and TabDDPM
+# Data Synthesis using CTGAN, TVAE, and TabDDPM
 
 ## Overview
-This project involves using the Conditional Tabular Generative Adversarial Network (CTGAN), Tabular Variational Autoencoder (TVAE), and Tabular Denoising diffusion probabilistic(TabDDPM) to synthesize realistic data based on the given dataset. The project includes implementations of the models, the generated figures, and the saved models for further data generation tasks.
+This project leverages the Conditional Tabular Generative Adversarial Network (CTGAN), Tabular Variational Autoencoder (TVAE), and Tabular Denoising Diffusion Probabilistic Model (TabDDPM) to synthesize realistic data based on a given dataset. The repository includes implementations of these models, generated figures, and saved models for further data generation tasks.
 
 ## Project Structure
 
@@ -20,12 +20,12 @@ This project involves using the Conditional Tabular Generative Adversarial Netwo
 - **figure/**: Folder containing figures related to TVAE data.
 
 ### TabDDPM Synthesizer
-- **Taddpm.py**: Script implementing the diffusion model.
+- **Taddpm.py**: Script implementing the TabDDPM model.
 - **graph_generate.py**: Script used for graph and data generation.
-- **ddpm_model.pkl**: Saved Tabddpm model, ready for data generation tasks.
+- **ddpm_model.pkl**: Saved TabDDPM model, ready for data generation tasks.
 - **perf_events_pwr.xlsx**: Original dataset file.
 - **figure/**: Folder containing figures related to TVAE data.
-- **hyperparameter.py**: hyperparameter tuning using the optuna framework.
+- **hyperparameter.py**: Hyperparameter tuning using the Optuna framework.
 
 ## Version Requirements
 - **Python**: 3.10.10
@@ -36,4 +36,9 @@ This project involves using the Conditional Tabular Generative Adversarial Netwo
 1. **Clone the Repository**
    ```bash
    git clone https://github.com/pum8/Green-computing-project.git
-   cd project-name
+   cd Green-computing
+
+##  Usage
+You can use the saved models (model_CTGAN.pkl, model_TVAE.pkl, ddpm_model.pkl) to generate new data based on the original dataset (perf_events_pwr.xlsx). The generated figures for each model are stored in their respective folders (ctganfigure/, figure/).
+
+
