@@ -10,6 +10,8 @@ from sdv.evaluation.single_table import evaluate_quality
 from sdv.evaluation.single_table import get_column_plot,get_column_pair_plot
 import seaborn as sns
 import matplotlib.pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
+
 
 data = pd.read_excel("perf_events_pwr.xlsx")
 column_name = ['occupancy', 'ILP',
@@ -24,7 +26,7 @@ column_name_map = {
     'ILP': 'Instruction-Level Parallelism',
     'intensity': 'Intensity',
     'reuse_ratio': 'Reuse Ratio',
-    'ld_coalesce': 'Load Coalescence',
+    'ld_coalesce': 'Load Coalesce',
     'L2_hit_rate': 'L2 Cache Hit Rate',
     'L1_hit_rate': 'L1 Cache Hit Rate',
     'branch_eff': 'Branch Efficiency',
@@ -41,9 +43,12 @@ metadata = SingleTableMetadata()
 metadata.detect_from_dataframe(real_data)
 python_dict = metadata.to_dict()
 
-synthetic_data =synthesizer.sample(num_rows=int(5000))#120
+#synthetic_data =synthesizer.sample(num_rows=int(5000))#120
 
-synthetic_data.to_csv('synthetic_data.csv', index=False)
+#synthetic_data.to_csv('synthetic_data.csv', index=False)
+
+synthetic_data = pd.read_csv("synthetic_data.csv")
+
 
 diagnostic = run_diagnostic(
     real_data=real_data,
@@ -60,8 +65,17 @@ quality_report = evaluate_quality(
 print("Evaluation Report: ",quality_report.get_details( property_name= 'Column Pair Trends'))
 print("Report",quality_report.get_details(property_name='Column Shapes'))
 
+
+
 fig = quality_report.get_visualization(property_name='Column Shapes')
 fig.write_image(f"figure/KScomplement.jpg")
+
+scaler = MinMaxScaler()
+real_data = pd.DataFrame(scaler.fit_transform(real_data), columns=real_data.columns)
+synthetic_data = pd.DataFrame(scaler.transform(synthetic_data), columns=synthetic_data.columns)
+
+
+
 
 def fig_generator(feature):
 
@@ -81,20 +95,14 @@ def fig_generator(feature):
             y=1.02,
             xanchor='center',
             x=0.5
+        ),
+        yaxis=dict(
+            showticklabels=False,  
+            title='Density Frequency'  
         )
     )   
     fig.write_image(f"figure/{feature}.jpg")
-    """
-    if feature!='pwr_avg':
-        fig2 = get_column_pair_plot(
-            real_data=real_data,
-            synthetic_data=synthetic_data,
-            metadata=metadata,
-            column_names=[feature,'pwr_avg'],
-        )
-        fig2.write_image(f"ctganfigure/{feature} VS PWR_AVG.jpg")
-    fig.write_image(f"ctganfigure/{feature}.jpg")
-    """
+
 
 for f in ['occupancy', 'ILP',
        'intensity', 'reuse_ratio', 'ld_coalesce', 'L2_hit_rate',
@@ -115,6 +123,8 @@ plt.title('TVAE synthetic Data Correlation Heatmap', fontsize=25)
 plt.tight_layout(rect=[0, 0, 1, 0.95])  
 plt.savefig('figure/TVAE synthetic Data Correlation Heatmap.jpg')
 plt.close()
+
+
 
 print("Done")
 

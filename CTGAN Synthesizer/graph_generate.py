@@ -1,6 +1,7 @@
 from sdv.single_table import CTGANSynthesizer
 import pandas as pd
 from sdv.metadata import SingleTableMetadata
+from sklearn.preprocessing import MinMaxScaler
 
 data = pd.read_excel("perf_events_pwr.xlsx")
 column_name = ['occupancy', 'ILP',
@@ -32,11 +33,11 @@ metadata.detect_from_dataframe(real_data)
 python_dict = metadata.to_dict()
 
 
-synthetic_data = synthesizer.sample(num_rows=int(5000))
+#synthetic_data = synthesizer.sample(num_rows=int(5000))
 
-synthetic_data.to_csv('synthetic_data.csv', index=False)
+#synthetic_data.to_csv('synthetic_data.csv', index=False)
 
-#synthetic_data = pd.read_csv("synthetic_data.csv")
+synthetic_data = pd.read_csv("synthetic_data.csv")
 
 from sdv.evaluation.single_table import run_diagnostic, evaluate_quality
 
@@ -59,6 +60,13 @@ fig = quality_report.get_visualization(property_name='Column Shapes')
 fig.update_layout(showlegend=False, font=dict(size=18))
 fig.write_image(f"ctganfigure/KScomplement.jpg")
 
+scaler = MinMaxScaler()
+real_data = pd.DataFrame(scaler.fit_transform(real_data), columns=real_data.columns)
+synthetic_data = pd.DataFrame(scaler.transform(synthetic_data), columns=synthetic_data.columns)
+
+
+
+
 from sdv.evaluation.single_table import get_column_plot, get_column_pair_plot
 
 def fig_generator(feature):
@@ -78,20 +86,14 @@ def fig_generator(feature):
             y=1.02,
             xanchor='center',
             x=0.5
+        ),
+        yaxis=dict(
+            showticklabels=False,  
+            title='Density Frequency'  
         )
     )
     fig.write_image(f"ctganfigure/{feature}.jpg")
-    """
-    if feature != 'pwr_avg':
-        fig2 = get_column_pair_plot(
-            real_data=real_data,
-            synthetic_data=synthetic_data,
-            metadata=metadata,
-            column_names=[feature, 'pwr_avg'],
-        )
-        fig2.update_layout(showlegend=False, font=dict(size=18))
-        fig2.write_image(f"ctganfigure/{feature} VS PWR_AVG.jpg")
-    """
+
 for f in ['occupancy', 'ILP',
           'intensity', 'reuse_ratio', 'ld_coalesce', 'L2_hit_rate',
           'L1_hit_rate', 'branch_eff', 'pwr_avg']:
