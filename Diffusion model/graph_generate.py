@@ -12,6 +12,8 @@ from synthcity.plugins import Plugins
 from synthcity.metrics.eval_statistical import KolmogorovSmirnovTest
 from synthcity.plugins.core.dataloader import GenericDataLoader
 import seaborn as sns
+from sklearn.preprocessing import MinMaxScaler
+
 
 
 data = pd.read_excel("perf_events_pwr.xlsx")
@@ -53,7 +55,7 @@ column_name_map = {
     'ILP': 'Instruction-Level Parallelism',
     'intensity': 'Intensity',
     'reuse_ratio': 'Reuse Ratio',
-    'ld_coalesce': 'Load Coalescence',
+    'ld_coalesce': 'Load Coalesce',
     'L2_hit_rate': 'L2 Cache Hit Rate',
     'L1_hit_rate': 'L1 Cache Hit Rate',
     'branch_eff': 'Branch Efficiency',
@@ -78,7 +80,15 @@ fig.update_layout(
     showlegend=False  
 )
 
+
+
 fig.write_image(f"figure/TabDDPM KScomplement.jpg")
+
+scaler = MinMaxScaler()
+real_data = pd.DataFrame(scaler.fit_transform(real_data), columns=real_data.columns)
+synthetic_data = pd.DataFrame(scaler.transform(synthetic_data), columns=synthetic_data.columns)
+
+
 
 def fig_generator(feature):
 
@@ -98,6 +108,10 @@ def fig_generator(feature):
             y=1.02,
             xanchor='center',
             x=0.5
+        ),
+        yaxis=dict(
+            showticklabels=False,  
+            title='Density Frequency'  
         )
     )
     fig.write_image(f"figure/{feature}.jpg")
@@ -118,7 +132,7 @@ corr = synthetic_data.corr()
 plt.figure(figsize=(10, 8))
 sns.heatmap(corr, cmap='coolwarm',annot=False, cbar=False)
 plt.title('TabDDPM synthetic Data Correlation Heatmap', fontsize=25)
-plt.tight_layout(rect=[0, 0, 1, 0.95])  # Adjust this to give more space for the title
+plt.tight_layout(rect=[0, 0, 1, 0.95]) 
 plt.savefig('figure/TabDDPM synthetic Data Correlation Heatmap.jpg')
 plt.close()
 
@@ -138,3 +152,4 @@ result = ks_test.evaluate(real_data_loader, syn_data_loader)
 # Display results
 print("Kolmogorov-Smirnov test results:")
 print(result)
+

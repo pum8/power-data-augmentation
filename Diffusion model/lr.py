@@ -70,7 +70,7 @@ def ml_models(X_train,y_train):
        print("Mean Squared Error (Support Vector Regression):", SVRmse)
        r2_svr = r2_score(y_test, y_pred_svr)
        print("R-squared for Support Vector Regression:", r2_svr)
-
+"""
 def mlp_models(X_train, y_train):
     mlp = MLPRegressor(hidden_layer_sizes=(100, 100, 50), 
                        activation='relu', 
@@ -87,7 +87,7 @@ def mlp_models(X_train, y_train):
     r2_mlp = r2_score(y_test, y_pred_mlp)
     print("Mean Squared Error MLP Regression:", mse_mlp)
     print("R-squared for MLP Regression:", r2_mlp)
-
+"""
 
 
 print("Model on Real data:")
