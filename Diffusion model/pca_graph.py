@@ -50,7 +50,7 @@ def fig_generator(feature):
         column_name=feature
                 )
     fig.update_layout(
-        title="Principal component analysis",
+        title="Principal Component Analysis",
         showlegend=True,
         font=dict(size=25),
         legend=dict(
@@ -63,6 +63,9 @@ def fig_generator(feature):
         yaxis=dict(
             showticklabels=False,  
             title='Density Frequency'  
+        ),
+        xaxis=dict(
+            range=[0, 1]  
         )
     )
     fig.write_image(f"figure/{feature}_normalized.jpg")
