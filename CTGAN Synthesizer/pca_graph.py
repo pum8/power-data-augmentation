@@ -51,7 +51,7 @@ def fig_generator(feature):
         column_name=feature
                 )
     fig.update_layout(
-        title="Principal component analysis",
+        title="Principal Component Analysis",
         showlegend=True,
         font=dict(size=25),
         legend=dict(
@@ -59,7 +59,8 @@ def fig_generator(feature):
             yanchor='bottom',
             y=1.02,
             xanchor='center',
-            x=0.5
+            x=0.5,
+            font=dict(size=30)
         ),
         yaxis=dict(
             showticklabels=False,  

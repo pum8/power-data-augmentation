@@ -50,7 +50,7 @@ def fig_generator(feature):
         column_name=feature
                 )
     fig.update_layout(
-        title="Principal component analysis",
+        title="Principal Component Analysis",
         showlegend=True,
         font=dict(size=25),
         legend=dict(

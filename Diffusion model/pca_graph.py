@@ -58,7 +58,8 @@ def fig_generator(feature):
             yanchor='bottom',
             y=1.02,
             xanchor='center',
-            x=0.5
+            x=0.5,
+            font=dict(size=30)
         ),
         yaxis=dict(
             showticklabels=False,  

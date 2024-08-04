@@ -55,9 +55,9 @@ column_name_map = {
     'ILP': 'Instruction-Level Parallelism',
     'intensity': 'Intensity',
     'reuse_ratio': 'Reuse Ratio',
-    'ld_coalesce': 'Load Coalesce',
-    'L2_hit_rate': 'L2 Cache Hit Rate',
-    'L1_hit_rate': 'L1 Cache Hit Rate',
+    'ld_coalesce': 'Load Coalescing',
+    'L2_hit_rate': 'L2 Hit Rate',
+    'L1_hit_rate': 'L1 Hit Rate',
     'branch_eff': 'Branch Efficiency',
     'pwr_avg': 'Average Power'
 }
@@ -77,7 +77,8 @@ fig.update_layout(
     plot_bgcolor='white', 
     paper_bgcolor='white', 
     font=dict(color='black', size=25),  
-    showlegend=False  
+    showlegend=True,
+    legend=dict(font=dict(size=20))  
 )
 
 
@@ -107,7 +108,8 @@ def fig_generator(feature):
             yanchor='bottom',
             y=1.02,
             xanchor='center',
-            x=0.5
+            x=0.5,
+            font=dict(size=30)
         ),
         yaxis=dict(
             showticklabels=False,  
@@ -131,7 +133,7 @@ sns.set_context("talk", font_scale=1.4)
 corr = synthetic_data.corr()
 plt.figure(figsize=(10, 8))
 sns.heatmap(corr, cmap='coolwarm',annot=False, cbar=False)
-plt.title('TabDDPM synthetic Data Correlation Heatmap', fontsize=25)
+plt.title('DDM Data Correlation Heatmap', fontsize=25)
 plt.tight_layout(rect=[0, 0, 1, 0.95]) 
 plt.savefig('figure/TabDDPM synthetic Data Correlation Heatmap.jpg')
 plt.close()

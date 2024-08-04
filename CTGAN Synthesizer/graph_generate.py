@@ -17,9 +17,9 @@ column_name_map = {
     'ILP': 'Instruction-Level Parallelism',
     'intensity': 'Intensity',
     'reuse_ratio': 'Reuse Ratio',
-    'ld_coalesce': 'Load Coalescence',
-    'L2_hit_rate': 'L2 Cache Hit Rate',
-    'L1_hit_rate': 'L1 Cache Hit Rate',
+    'ld_coalesce': 'Load Coalescing',
+    'L2_hit_rate': 'L2 Hit Rate',
+    'L1_hit_rate': 'L1 Hit Rate',
     'branch_eff': 'Branch Efficiency',
     'pwr_avg': 'Average Power'
 }
@@ -85,7 +85,8 @@ def fig_generator(feature):
             yanchor='bottom',
             y=1.02,
             xanchor='center',
-            x=0.5
+            x=0.5,
+            font=dict(size=30),
         ),
         yaxis=dict(
             showticklabels=False,  
@@ -116,7 +117,7 @@ plt.close()
 corr = synthetic_data.corr()
 plt.figure(figsize=(10, 8))
 sns.heatmap(corr, cmap='coolwarm',annot=False, cbar=False)
-plt.title('CTGAN Synthetic Data Correlation Heatmap', fontsize=25)
+plt.title('GAN Data Correlation Heatmap', fontsize=25)
 plt.tight_layout(rect=[0, 0, 1, 0.95])  
 plt.savefig('ctganfigure/CTGAN_Synthetic_Data_Correlation_Heatmap_Adjusted.jpg')
 plt.close()
