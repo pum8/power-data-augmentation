@@ -1,7 +1,7 @@
 # Data Synthesis using CTGAN, TVAE, and TabDDPM
 
 ## Overview
-This project leverages the Conditional Tabular Generative Adversarial Network (CTGAN), Tabular Variational Autoencoder (TVAE), and Tabular Denoising Diffusion Probabilistic Model (TabDDPM) to synthesize realistic data based on a given dataset. The repository includes implementations of these models, generated figures, and saved models for further data generation tasks.
+This project leverages the Conditional Tabular Generative Adversarial Network (CTGAN), Tabular Variational Autoencoder (TVAE), and Denoising Diffusion Probabilistic Model (DDPM) to synthesize realistic data based on a given dataset. The repository includes implementations of these models, generated figures, and saved models for further data generation tasks.
 
 ## Project Structure
 
@@ -19,10 +19,10 @@ This project leverages the Conditional Tabular Generative Adversarial Network (C
 - **perf_events_pwr.xlsx**: Original dataset file.
 - **figure/**: Folder containing figures related to TVAE data.
 
-### TabDDPM Synthesizer
-- **Taddpm.py**: Script implementing the TabDDPM model.
+### DDPM Synthesizer
+- **Taddpm.py**: Script implementing the DDPM model.
 - **graph_generate.py**: Script used for graph and data generation.
-- **ddpm_model.pkl**: Saved TabDDPM model, ready for data generation tasks.
+- **ddpm_model.pkl**: Saved DDPM model, ready for data generation tasks.
 - **perf_events_pwr.xlsx**: Original dataset file.
 - **figure/**: Folder containing figures related to TVAE data.
 - **hyperparameter.py**: Hyperparameter tuning using the Optuna framework.
