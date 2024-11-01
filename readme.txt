@@ -29,8 +29,8 @@ This project leverages the Conditional Tabular Generative Adversarial Network (C
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/pum8/Green-computing-project.git
-   cd Green-computing
+   git clone git@github.com:pum8/power-data-augmentation.git
+   cd power-data-augmentation
 
 ##  Usage
 You can use the saved models (model_CTGAN.pkl, ddpm_model.pkl) to generate new data based on the original dataset (perf_events_pwr.xlsx). The generated figures for each model are stored in their respective folders
